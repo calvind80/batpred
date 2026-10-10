@@ -3015,7 +3015,12 @@ chart.render();
 
             predbat_active, _ = self.get_ha_config("active", None)
 
-            updating = self.get_state_wrapper("update.predbat_version", attribute="in_progress", default=False) is True
+            update_entity = "update.predbat_version"
+            updating = self.get_state_wrapper(update_entity, attribute="in_progress", default=False) is True
+            update_available = self.get_state_wrapper(update_entity, default="off") == "on"
+            latest_version = self.get_state_wrapper(update_entity, attribute="latest_version", default=None)
+            if latest_version in (None, "", "unknown", "unavailable", "check HACS"):
+                latest_version = None
 
             # Configuration health
             config_errors = len(self.arg_errors)
@@ -3031,6 +3036,8 @@ chart.render();
                 "last_updated": last_updated,
                 "last_started": last_started,
                 "version": THIS_VERSION_DISPLAY,
+                "latest_version": latest_version,
+                "update_available": update_available,
                 # Predbat configuration
                 "mode": mode,
                 "debug_enable": debug_enable,
