@@ -503,7 +503,7 @@ function SimplePowerFlow({ data }: SimplePowerFlowProps) {
 
         <span className="simple-node-power">{formatPower(data.battery_power)}</span>
 
-        <span>{data.soc_percent}% SoC</span>
+        <span className="simple-node-secondary">{data.soc_percent}% SoC</span>
 
         <small>
           {data.battery_charging ? 'Charging' : data.battery_discharging ? 'Discharging' : 'Idle'}
@@ -533,12 +533,14 @@ function SimplePowerFlow({ data }: SimplePowerFlowProps) {
        */}
       <div className="simple-node simple-grid">
         <div className="simple-node-circle" ref={gridRef}>
-          <GridIcon />
+          <GridIcon className="grid-icon" />
         </div>
 
         <strong>Grid</strong>
 
         <span className="simple-node-power">{formatPower(data.grid_power)}</span>
+
+        <span className="simple-node-secondary" aria-hidden="true">&nbsp;</span>
 
         <small>{!gridActive ? 'Idle' : data.grid_importing ? 'Importing' : 'Exporting'}</small>
       </div>
