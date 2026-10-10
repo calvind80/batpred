@@ -151,7 +151,8 @@ def run_test_plan_json_rate_adjust(my_predbat):
     original_axle_sessions = my_predbat.axle_sessions
     event_cases = [
         ("octopus_power_down", [{"start": event_start, "end": event_end}], [], []),
-        ("octopus_power_up", [], [{"start": event_start, "end": event_end}], []),
+        ("octopus_free_electricity", [], [{"start": event_start, "end": event_end}], []),
+        ("octopus_power_up", [], [{"start": event_start, "end": event_end, "event_type": "POWER_UP"}], []),
         ("octopus_free_electricity", [], [{"start": event_start, "end": event_end, "event_type": "FREE_ELECTRICITY"}], []),
         ("octopus_happy_hour", [], [{"start": event_start, "end": event_end, "event_type": "WEEKEND_HAPPY_HOUR"}], []),
         (
