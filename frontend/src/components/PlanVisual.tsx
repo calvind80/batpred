@@ -76,15 +76,15 @@ type TimelineEvent = {
   rateEventType?: NonNullable<PlanRow['rate_event_type']>
 }
 
-const RATE_EVENT_DETAILS: Record<NonNullable<PlanRow['rate_event_type']>, { label: string; colour: string }> = {
-  octopus_power_down: { label: 'Power Down', colour: 'power-down' },
-  octopus_power_up: { label: 'Power Up', colour: 'power-up' },
-  octopus_happy_hour: { label: 'Happy Hour', colour: 'power-up' },
-  octopus_free_electricity: { label: 'Free electricity', colour: 'power-up' },
-  axle_import: { label: 'Axle import', colour: 'axle-import' },
-  axle_export: { label: 'Axle export', colour: 'axle-export' },
-  axle_event: { label: 'Axle event', colour: 'axle-event' },
-  energy_event: { label: 'Energy event', colour: 'generic' }
+const RATE_EVENT_DETAILS: Record<NonNullable<PlanRow['rate_event_type']>, { label: string; description: string; colour: string }> = {
+  octopus_power_down: { label: 'Power Down', description: 'Octopus Power Down has adjusted the export rate for this period.', colour: 'power-down' },
+  octopus_power_up: { label: 'Power Up', description: 'Octopus Power Up has made electricity free for this period.', colour: 'power-up' },
+  octopus_happy_hour: { label: 'Happy Hour', description: 'Octopus Weekend Happy Hour has made electricity free for this period.', colour: 'power-up' },
+  octopus_free_electricity: { label: 'Free electricity', description: 'Predbat has applied a free electricity rate for this period.', colour: 'power-up' },
+  axle_import: { label: 'Axle import', description: 'An Axle import event has adjusted the rate for this period.', colour: 'axle-import' },
+  axle_export: { label: 'Axle export', description: 'An Axle export event has adjusted the rate for this period.', colour: 'axle-export' },
+  axle_event: { label: 'Axle event', description: 'An Axle event has adjusted the rate for this period.', colour: 'axle-event' },
+  energy_event: { label: 'Energy event', description: 'A joined energy event has adjusted the rate for this period.', colour: 'generic' }
 }
 
 function getRateEventType(row: PlanRow) {
@@ -1140,8 +1140,10 @@ export default function PlanVisual({ plan }: PlanVisualProps) {
             )}
           </div>
 
-          {activeEvent.explanation && (
-            <p className="plan-timeline-explanation">{activeEvent.explanation}</p>
+          {(activeRateEvent || activeEvent.explanation) && (
+            <p className="plan-timeline-explanation">
+              {[activeRateEvent?.description, activeEvent.explanation].filter(Boolean).join(' ')}
+            </p>
           )}
         </div>
       )}

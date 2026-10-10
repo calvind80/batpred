@@ -78,8 +78,10 @@ def plan_rate_event_type(base, minute):
         return "octopus_happy_hour"
     if any(slot.get("event_type") == "FREE_ELECTRICITY" for slot in matching_free_slots):
         return "octopus_free_electricity"
-    if matching_free_slots:
+    if any("POWER_UP" in str(slot.get("event_type", "")).upper() or slot.get("event_type") == "TURN_UP" for slot in matching_free_slots):
         return "octopus_power_up"
+    if matching_free_slots:
+        return "octopus_free_electricity"
     for slot in base.octopus_saving_slots:
         active_undated_slot = slot.get("state") and not slot.get("start") and not slot.get("end") and (base.minutes_now // 30) * 30 <= minute < (base.minutes_now // 30) * 30 + 30
         if active_undated_slot or event_slot_contains_minute(slot, minute, base.midnight_utc):

@@ -59,7 +59,7 @@ const RATE_EVENT_DETAILS: Record<string, { label: string; description: string; c
   },
   octopus_free_electricity: {
     label: 'Free electricity',
-    description: 'Free electricity session from an untyped public feed: Predbat has applied the zero rate to this slot.',
+    description: 'Free electricity session.',
     colour: 'power-up'
   },
   axle_import: {
