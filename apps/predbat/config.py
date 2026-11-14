@@ -1947,6 +1947,13 @@ CONFIG_ITEMS = [
         "default": 24,
     },
     {
+        "name": "plan_daily_cost",
+        "friendly_name": "Reset plan cost at midnight",
+        "description": "Show the modern plan table's running cost separately for each day. The forecast total and optimisation are unchanged.",
+        "type": "switch",
+        "default": False,
+    },
+    {
         "name": "plan_debug",
         "friendly_name": "HTML Plan Debug",
         "description": "Adds extra optimiser and diagnostic information to the generated HTML plan.",

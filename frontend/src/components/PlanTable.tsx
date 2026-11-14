@@ -1310,6 +1310,13 @@ export default function PlanTable({
   onOverrideSubmitted
 }: PlanTableProps) {
   const rows = plan.rows ?? []
+  const dailyCosts = (() => {
+    let offset = 0
+    return rows.map((row, index) => {
+      if (index > 0 && getDateKey(rows[index - 1].time) !== getDateKey(row.time)) offset = row.total_cost
+      return row.total_cost - offset
+    })
+  })()
   const { major: currencyMajor, minor: currencyMinor } = resolveCurrencySymbols(plan.currency_symbols)
 
   const showCar = plan.num_cars > 0
@@ -1688,7 +1695,7 @@ export default function PlanTable({
                   label="Total"
                   mobileLabel={currencyMajor}
                   mobileTone="blue"
-                  help="Predbat's running estimated energy cost at the start of this slot."
+                  help={plan.plan_daily_cost ? 'Estimated energy cost since midnight, at the start of this slot.' : "Predbat's running estimated energy cost at the start of this slot."}
                 />
               </th>
 
@@ -2137,7 +2144,7 @@ export default function PlanTable({
                       </span>
                     </td>
 
-                    <td className="plan-number">{formatMajorCurrency(row.total_cost, currencyMajor)}</td>
+                    <td className="plan-number">{formatMajorCurrency(plan.plan_daily_cost ? dailyCosts[index] : row.total_cost, currencyMajor)}</td>
 
                     {showCarbon && (
                       <>

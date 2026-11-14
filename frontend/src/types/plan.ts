@@ -72,6 +72,7 @@ export type Plan = {
   soc_max: number
   mode: string
   plan_debug?: boolean
+  plan_daily_cost?: boolean
   num_cars: number
   iboost_enable?: boolean
   carbon_enable?: boolean

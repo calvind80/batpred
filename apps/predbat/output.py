@@ -1430,6 +1430,7 @@ class Output:
         raw_plan["time"] = self.midnight_utc.strftime(TIME_FORMAT)
         raw_plan["mode"] = mode
         raw_plan["plan_debug"] = plan_debug
+        raw_plan["plan_daily_cost"] = self.get_arg("plan_daily_cost", False)
         raw_plan["forecast_minutes"] = self.forecast_minutes
         raw_plan["end_record"] = end_record
         raw_plan["end_plan"] = end_plan

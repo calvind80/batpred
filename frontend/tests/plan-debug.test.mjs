@@ -140,6 +140,21 @@ function renderPlanTable(debugEnabled, selectedPlan = plan) {
   )
 }
 
+test('daily cost resets at each new day while the forecast total stays unchanged', () => {
+  const rows = [
+    { ...row, time: '2099-01-01T23:30:00', total_cost: 1.23 },
+    { ...row, time: '2099-01-02T00:00:00', total_cost: 1.50 },
+    { ...row, time: '2099-01-02T00:30:00', total_cost: 1.75 },
+    { ...row, time: '2099-01-03T00:00:00', total_cost: 2.00 }
+  ]
+  const normal = renderPlanTable(false, { ...plan, rows })
+  const daily = renderPlanTable(false, { ...plan, rows, plan_daily_cost: true })
+  const totals = html => [...html.matchAll(/<td class="plan-number">(€[^<]+)<\/td>/g)].map(match => match[1])
+  assert.deepEqual(totals(normal), ['€1.23', '€1.50', '€1.75', '€2.00'])
+  assert.deepEqual(totals(daily), ['€1.23', '€0.00', '€0.25', '€0.00'])
+  assert.match(daily, /€2.34/)
+})
+
 test('historical warnings show a flag and all errors in the action tooltip', () => {
   const html = renderPlanTable(false, {
     ...plan,
